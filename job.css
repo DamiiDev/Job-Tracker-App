@@ -1,0 +1,567 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+    color: #333;
+}
+
+/* Header Styles */
+
+.logo-header {
+    background-color: white;
+    color: rgb(13, 13, 13);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    display: flex;
+}
+
+.logo1 {
+    color: #258540;
+    font-weight: bold;
+}
+
+.logo2 {
+    color: #5ef4a2;
+    font-weight: bold;
+}
+
+
+/* Navigation Styles */
+
+.signup-login {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.login {
+    background-color: transparent;
+    color: #333;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.sign-up {
+    background-color: #258540;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.sign-up a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Body Content Styles */
+
+.body-content {
+    padding: 20px;
+    background: linear-gradient(135deg, #eff3f7, #d4d6da);
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-title {
+    font-size: 36px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.hr-title {
+    width: 200px;
+    margin: 20px auto;
+    border: 1px solid #cbcecb;
+}
+
+.content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.para {
+    font-size: 16px;
+    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+/* Buttons Styles */
+
+.get-started {
+    background-color: #258540;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 30px;
+}
+
+.learn-more {
+    background-color: transparent;
+    color: #258540;
+    border: 1px solid #258540;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 30px;
+}
+
+
+/* Features Section Styles */
+.features-list {
+    display: flex;
+    justify-content: center;
+    background: #fff;
+    padding: 10px 20px;
+    align-items: center;
+    height: 14vh;
+}
+
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    align-items: center;
+    font-size: 10px;
+}
+
+.feat1 {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.feat1 img {
+    width: 30px;
+    height: 30px;
+}
+
+/* Footer Styles */
+
+footer {
+    background-color: #fff;
+    color: #fff;
+    text-align: center;
+    padding: 10px 20px;
+    border: 1px solid #e1e4e1;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.footer-link {
+    color: #258540;
+    text-decoration: none;
+}
+
+/* The beginning of Signup Page Styles */
+
+.signup-container {
+    background-color: rgb(246, 249, 247);
+    color: rgb(12, 12, 12);
+    border-radius: 20px;
+    width: 90%;
+    max-width: 350px;
+    margin: auto;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #cac6c6;
+}
+
+.create-account {
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(241, 240, 240);
+    padding: 10px;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+}
+
+.full-name,
+.email,
+.password,
+.confirm-password,
+.date-applied,
+.notes {
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.full-name input,
+.email input,
+.password input,
+.confirm-password input,
+.date-applied input,
+.notes textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+label {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.create-account-btn {
+    background-color: #258540;
+    color: #fff;
+    border: none;
+    padding: 10px 40px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.create-account-btn:hover {
+    background-color: #1e6b2c;
+}
+
+.already-have-account {
+    margin-top: 10px;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+}
+
+.already-have-account a {
+    color: #258540;
+    text-decoration: none;
+}
+
+a {
+    color: #258540;
+    text-decoration: none;
+}
+
+.forgot-password {
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.login-btn {
+    background-color: #258540;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 10px;
+    width: 50%;
+}
+
+.save-job-btn {
+    background-color: #258540;
+    color: #fff;
+    border: none;
+    padding: 10px 40px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.confirm-password select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 14px;
+}
+
+
+/* The beginning of Job Page Styles */
+
+.search-box {
+    display: flex;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+}
+
+.search-box img {
+    background-color: rgb(26, 189, 26);
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    border: none;
+}
+
+.job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: blue;
+    color: #fff;
+    padding: 10px;
+}
+
+thead {
+    background-color: rgb(217, 210, 210);
+    border: 1px solid #e6e3e3;
+}
+
+table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 10px auto;
+}
+
+th,
+td {
+    padding: 15px;
+    border-bottom: 1px solid #e6e3e3;
+    text-align: left;
+}
+
+.table-body {
+    background-color: rgb(225, 220, 220);
+}
+
+
+/* The beginning of Dashboard Styles */
+
+.welcome-page {
+    background: linear-gradient(to right, #4a90e2, #357abd);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+.welcome-logo {
+    font-size: 24px;
+    display: flex;
+    font-weight: bold;
+    align-items: center;
+}
+
+.welcome-tab a {
+    color: white;
+    text-decoration: none;
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+.welcome-body {
+    background-color: #f0f0f0;
+}
+
+.welcome-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.welcome-message img {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+}
+
+.welcome-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 20px;
+}
+
+.offers-rejected {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.divider {
+    width: 1px;
+    height: 40px;
+    background-color: #ccc;
+}
+
+.total-application,
+.interviews,
+.offers-rejected {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 30%;
+    min-width: 200px;
+    flex: 1;
+    transition: transform 0.2s;
+}
+
+.offers,
+.rejected {
+    margin: 0px 5px;
+}
+
+.total-application h3,
+.interviews h3,
+.offers-rejected h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.total-application p,
+.interviews p,
+.offers-rejected p {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.recent-application {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.recent-application button {
+    background-color: #28a745;
+    padding: 8px 20px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.recent-application button:hover {
+    background-color: #218838;
+}
+
+.recent-application-title {
+    margin-top: 20px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Errror Styles */
+
+.email p,
+.password p {
+    color: rgb(227, 30, 30);
+    font-size: 10px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+
+}
+
+#success {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: none;
+    color: #4CAF50;
+    border-radius: 20px;
+    display: none;
+    font-size: 18px;
+    text-align: center;
+    z-index: 1000;
+    animation: fadeInOut 5s ease-in-out;
+    padding: 25px 40px;
+}
+
+.eye {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999999;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.password {
+    position: relative;
+}
+
+.password input {
+    padding-right: 40px;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+
+    10% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+
+    }
+
+    90% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+}

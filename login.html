@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="job.css">
+</head>
+
+<body class="body">
+    <div class="signup-container">
+
+        <div class="form">
+
+            <div class="header">
+                <div class="create-account-logo">
+                    <h3 class="create-account">Login</h3>
+                </div>
+            </div>
+
+            <form id="form" action="#" method="post">
+
+                <div class="email">
+                    <label for="Email">Email</label>
+                    <input id="loginEmail" type="email" name="Email">
+                    <p id="emailError"></p>
+                </div>
+
+                <div class="password">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <input id="loginPassword" type="password" name="password">
+                        <span id="togglePassword" class="eye">&#128065;</span>
+                    </div>
+                    <p id="passwordError"></p>
+                </div>
+
+                <button type="submit" id="loginBtn" class="login-btn">Login</button>
+
+                <p class="forgot-password"><a href="forgot-password.html">Forgot Password?</a></p>
+
+                <p class="already-have-account">Don't have an account? <a href="signup.html">Sign Up</a></p>
+            </form>
+        </div>
+    </div>
+    <p id="success"></p>
+    <script src="job.js"></script>
+</body>
+
+</html>

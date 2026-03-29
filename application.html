@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Job Application</title>
+    <link rel="stylesheet" href="job.css">
+</head>
+
+<body class="body">
+    <div class="signup-container">
+
+        <div class="form">
+
+            <div class="header">
+                <div class="create-account-logo">
+                    <h3 class="create-account">Add Job Application</h3>
+                </div>
+            </div>
+
+            <form action="#" method="post">
+                <div class="full-name">
+                    <label for="Company">Company Name</label>
+                    <input type="text" name="Company">
+                </div>
+
+                <div class="email">
+                    <label for="job-title">Job Title</label>
+                    <input type="text" name="job-title">
+                </div>
+
+                <div class="password">
+                    <label for="location">Location</label>
+                    <input type="text" name="location">
+                </div>
+
+                <div class="confirm-password">
+                    <label for="confirm-password">Status</label>
+                    <select name="status" id="status">
+                        <option value="applied">Applied</option>
+                        <option value="interview">Interview</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="offered">Offered</option>
+                    </select>
+                </div>
+
+                <div class="date-applied">
+                    <label for="date-applied">Date Applied</label>
+                    <input type="date" name="date-applied">
+                </div>
+
+                <div class="notes">
+                    <label for="notes">Notes</label>
+                    <textarea name="notes" rows="4"></textarea>
+                </div>
+
+                <button class="save-job-btn">Save Job</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
