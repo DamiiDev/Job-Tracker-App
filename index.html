@@ -2,72 +2,956 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Developer Job Tracker</title>
-    <link rel="stylesheet" href="job.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JobTracker — Track Your Applications Like a Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #f5f2eb;
+            --bg-card: #eeeae0;
+            --ink: #1a1a18;
+            --ink-mid: #3d3d39;
+            --muted: #8a8880;
+            --green: #2d6a4f;
+            --green-lt: #52b788;
+            --green-pale: #d8f3dc;
+            --amber: #e76f51;
+            --border: rgba(26, 26, 24, 0.10);
+            --ff-head: 'Cabinet Grotesk', sans-serif;
+            --ff-body: 'Instrument Sans', sans-serif;
+            --radius: 10px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--ink);
+            font-family: var(--ff-body);
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ── NOISE TEXTURE ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+
+        /* ── FADE-UP ANIMATION ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* ════════════════════ NAV ════════════════════ */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 clamp(1.25rem, 5vw, 3.5rem);
+            height: 64px;
+            background: rgba(245, 242, 235, 0.85);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            font-family: var(--ff-head);
+            font-weight: 900;
+            font-size: 1.25rem;
+            letter-spacing: -0.03em;
+            color: var(--ink);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .nav-logo .dot {
+            color: var(--green);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            font-family: var(--ff-body);
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--ink-mid);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--ink);
+            color: var(--ink);
+        }
+
+        .btn-solid {
+            background: var(--ink);
+            color: var(--bg);
+        }
+
+        .btn-solid:hover {
+            background: var(--green);
+            transform: translateY(-1px);
+        }
+
+        .btn-green {
+            background: var(--green);
+            color: #fff;
+            font-size: 0.9rem;
+            padding: 0.75rem 1.75rem;
+        }
+
+        .btn-green:hover {
+            background: #245840;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(45, 106, 79, 0.3);
+        }
+
+        .btn-ghost-lg {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--ink-mid);
+            font-size: 0.9rem;
+            padding: 0.75rem 1.75rem;
+        }
+
+        .btn-ghost-lg:hover {
+            border-color: var(--ink);
+            color: var(--ink);
+        }
+
+        /* ════════════════════ HERO ════════════════════ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 7rem clamp(1.25rem, 6vw, 5rem) 5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--green-pale);
+            color: var(--green);
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.35rem 1rem;
+            border-radius: 100px;
+            margin-bottom: 2rem;
+            animation: fadeDown 0.6s ease both;
+        }
+
+        .hero-tag-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green-lt);
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.2
+            }
+        }
+
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-12px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .hero-title {
+            font-family: var(--ff-head);
+            font-weight: 900;
+            font-size: clamp(2.8rem, 8vw, 6.5rem);
+            line-height: 0.95;
+            letter-spacing: -0.04em;
+            color: var(--ink);
+            max-width: 12ch;
+            margin: 0 auto 1.5rem;
+            animation: fadeUp 0.7s 0.1s ease both;
+        }
+
+        .hero-title .accent {
+            color: var(--green);
+        }
+
+        .hero-title .strike {
+            position: relative;
+            display: inline-block;
+            color: var(--muted);
+        }
+
+        .hero-title .strike::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--amber);
+            transform: rotate(-2deg);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .hero-sub {
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            color: var(--muted);
+            max-width: 46ch;
+            margin: 0 auto 2.5rem;
+            font-style: italic;
+            animation: fadeUp 0.7s 0.2s ease both;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 0.875rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+            animation: fadeUp 0.7s 0.3s ease both;
+        }
+
+        /* mini kanban preview */
+        .hero-preview {
+            width: 100%;
+            max-width: 720px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            animation: fadeUp 0.8s 0.4s ease both;
+        }
+
+        .kanban-col {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem;
+        }
+
+        .kanban-col-head {
+            font-family: var(--ff-head);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .kanban-col-head .badge {
+            background: var(--border);
+            font-size: 0.65rem;
+            padding: 0.1rem 0.4rem;
+            border-radius: 100px;
+            color: var(--muted);
+        }
+
+        .k-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.6rem 0.75rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .k-card-co {
+            font-weight: 600;
+            color: var(--ink);
+            font-family: var(--ff-head);
+        }
+
+        .k-card-role {
+            color: var(--muted);
+            font-size: 0.68rem;
+            margin-top: 0.1rem;
+        }
+
+        .k-card-date {
+            color: var(--muted);
+            font-size: 0.65rem;
+            margin-top: 0.35rem;
+        }
+
+        .k-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* ════════════════════ STATS ════════════════════ */
+        .stats {
+            background: var(--ink);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat {
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border-right: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .stat:last-child {
+            border-right: none;
+        }
+
+        .stat-num {
+            font-family: var(--ff-head);
+            font-weight: 900;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--green-lt);
+            letter-spacing: -0.04em;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 0.4rem;
+        }
+
+        /* ════════════════════ FEATURES ════════════════════ */
+        .features {
+            padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 6vw, 5rem);
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-label {
+            font-size: 0.72rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .section-label::before {
+            content: '';
+            display: block;
+            width: 24px;
+            height: 1px;
+            background: var(--green);
+        }
+
+        .section-title {
+            font-family: var(--ff-head);
+            font-weight: 900;
+            font-size: clamp(2rem, 4vw, 3rem);
+            letter-spacing: -0.03em;
+            color: var(--ink);
+            max-width: 20ch;
+            line-height: 1.05;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-sub {
+            color: var(--muted);
+            font-size: 0.95rem;
+            max-width: 46ch;
+            font-style: italic;
+            margin-bottom: 3rem;
+        }
+
+        .feat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .feat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.75rem;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .feat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 40px rgba(26, 26, 24, 0.08);
+        }
+
+        .feat-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 1.1rem;
+        }
+
+        .feat-icon.green {
+            background: var(--green-pale);
+        }
+
+        .feat-icon.amber {
+            background: #fde8e2;
+        }
+
+        .feat-icon.blue {
+            background: #dbeafe;
+        }
+
+        .feat-name {
+            font-family: var(--ff-head);
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: var(--ink);
+            margin-bottom: 0.45rem;
+        }
+
+        .feat-desc {
+            font-size: 0.875rem;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        /* ════════════════════ HOW IT WORKS ════════════════════ */
+        .how {
+            background: var(--ink);
+            color: #fff;
+            padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 6vw, 5rem);
+            position: relative;
+            z-index: 1;
+        }
+
+        .how .section-label {
+            color: var(--green-lt);
+        }
+
+        .how .section-label::before {
+            background: var(--green-lt);
+        }
+
+        .how .section-title {
+            color: #fff;
+        }
+
+        .how .section-sub {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius);
+            padding: 1.75rem;
+            position: relative;
+            transition: background 0.25s;
+        }
+
+        .step:hover {
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .step-num {
+            font-family: var(--ff-head);
+            font-weight: 900;
+            font-size: 3.5rem;
+            color: rgba(82, 183, 136, 0.08);
+            position: absolute;
+            top: 0.75rem;
+            right: 1.25rem;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .step-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: rgba(82, 183, 136, 0.15);
+            color: var(--green-lt);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            margin-bottom: 1.1rem;
+        }
+
+        .step-title {
+            font-family: var(--ff-head);
+            font-weight: 800;
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+
+        .step-desc {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.4);
+            line-height: 1.65;
+        }
+
+        /* ════════════════════ CTA ════════════════════ */
+        .cta-wrap {
+            padding: clamp(3rem, 6vw, 5rem) clamp(1.25rem, 6vw, 5rem);
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-box {
+            background: var(--green);
+            border-radius: 16px;
+            padding: clamp(2.5rem, 5vw, 4.5rem) clamp(2rem, 5vw, 4rem);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+        }
+
+        .cta-title {
+            font-family: var(--ff-head);
+            font-weight: 900;
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            letter-spacing: -0.03em;
+            color: #fff;
+            margin-bottom: 0.875rem;
+            line-height: 1.05;
+        }
+
+        .cta-sub {
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+            margin-bottom: 2rem;
+        }
+
+        .cta-btns {
+            display: flex;
+            gap: 0.875rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-white {
+            background: #fff;
+            color: var(--green);
+            font-family: var(--ff-body);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.75rem 1.75rem;
+            border-radius: 100px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-white:hover {
+            background: var(--bg);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-white-outline {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            font-family: var(--ff-body);
+            font-size: 0.9rem;
+            padding: 0.75rem 1.75rem;
+            border-radius: 100px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-white-outline:hover {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* ════════════════════ FOOTER ════════════════════ */
+        footer {
+            background: var(--ink);
+            color: rgba(255, 255, 255, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1.75rem clamp(1.25rem, 6vw, 5rem);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-logo {
+            font-family: var(--ff-head);
+            font-weight: 900;
+            font-size: 1rem;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .footer-logo .dot {
+            color: var(--green-lt);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.75rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--green-lt);
+        }
+
+        .footer-copy {
+            font-size: 0.75rem;
+        }
+
+        /* ════════════════════ RESPONSIVE ════════════════════ */
+        @media (max-width: 640px) {
+            .hero-preview {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-preview .kanban-col:not(:first-child) {
+                display: none;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .stat {
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            }
+
+            .stat:last-child {
+                border-bottom: none;
+            }
+
+            .hero-btns {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-green,
+            .btn-ghost-lg {
+                width: 100%;
+                justify-content: center;
+            }
+
+            footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-actions .btn-outline {
+                display: none;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- Header Section -->
+    <!-- NAV -->
+    <nav>
+        <a href="#" class="nav-logo">Job<span class="dot">.</span>Tracker</a>
+        <div class="nav-actions">
+            <a href="login.html" class="btn btn-outline">Login</a>
+            <a href="signup.html" class="btn btn-solid">Sign Up</a>
+        </div>
+    </nav>
 
-    <header class="logo-header">
-        <div class="logo">
-            <h3 class="logo1">Job</h3>
-            <h3 class="logo2">Tracker</h3>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-tag">
+            <div class="hero-tag-dot"></div>
+            Job Search Simplified
+        </div>
+        <h1 class="hero-title">
+            Stop <span class="strike">losing</span><br>
+            track of your <span class="accent">applications</span>
+        </h1>
+        <p class="hero-sub">
+            Organize every developer job application in one place. Stay focused,
+            stay productive, and land the role you deserve.
+        </p>
+        <div class="hero-btns">
+            <a href="signup.html" class="btn btn-green">Get Started Free →</a>
+            <a href="#features" class="btn btn-ghost-lg">See How It Works</a>
         </div>
 
-        <div class="signup-login">
-            <button class="login"><a href="login.html">Login</a></button>
-            <hr>
-            <button class="sign-up"><a href="signup.html">Sign Up</a></button>
-        </div>
-    </header>
-
-    <!-- Body Content Section -->
-
-    <section class="body-content">
-        <div class="content">
-            <h1 class="page-title">Track Your Applications Like a Pro</h1>
-            <hr class="hr-title">
-            <p class="para">Organize and track all your developer job applications in one place. Stay updated and
-                productive in your job search journey.</p>
-            <button class="get-started">Get Started</button>
-            <button class="learn-more">Learn More</button>
+        <!-- Kanban Preview -->
+        <div class="hero-preview">
+            <div class="kanban-col">
+                <div class="kanban-col-head" style="color:#e76f51">
+                    <div class="k-dot" style="background:#e76f51"></div> Applied
+                    <span class="badge">3</span>
+                </div>
+                <div class="k-card">
+                    <div class="k-card-co">Stripe</div>
+                    <div class="k-card-role">Frontend Engineer</div>
+                    <div class="k-card-date">Applied May 2</div>
+                </div>
+                <div class="k-card">
+                    <div class="k-card-co">Vercel</div>
+                    <div class="k-card-role">React Developer</div>
+                    <div class="k-card-date">Applied May 4</div>
+                </div>
+            </div>
+            <div class="kanban-col">
+                <div class="kanban-col-head" style="color:#f4a261">
+                    <div class="k-dot" style="background:#f4a261"></div> Interview
+                    <span class="badge">2</span>
+                </div>
+                <div class="k-card">
+                    <div class="k-card-co">Notion</div>
+                    <div class="k-card-role">Full Stack Dev</div>
+                    <div class="k-card-date">Interview May 8</div>
+                </div>
+            </div>
+            <div class="kanban-col">
+                <div class="kanban-col-head" style="color:#52b788">
+                    <div class="k-dot" style="background:#52b788"></div> Offer
+                    <span class="badge">1</span>
+                </div>
+                <div class="k-card">
+                    <div class="k-card-co">Linear</div>
+                    <div class="k-card-role">Software Engineer</div>
+                    <div class="k-card-date">Offer received 🎉</div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Features Section -->
+    <!-- STATS -->
+    <div class="stats reveal">
+        <div class="stat">
+            <div class="stat-num">12k+</div>
+            <div class="stat-label">Jobs Tracked</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">3x</div>
+            <div class="stat-label">Faster Offers</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">98%</div>
+            <div class="stat-label">Satisfaction</div>
+        </div>
+    </div>
 
-    <section class="features-list">
-        <div class="features">
-            <div class="feat1">
-                <img src="square.png" alt="Feature Icon">
-                <h2 class="feat">Track Applications</h2>
-            </div>
-
-            <div class="feat1">
-                <img src="approval.png" alt="Feature Icon">
-                <h2 class="feat">Manage Interviews</h2>
-            </div>
-
-            <div class="feat1">
-                <img src="check.png" alt="Feature Icon">
-                <h2 class="feat">Stay Organized</h2>
+    <!-- FEATURES -->
+    <section class="features" id="features">
+        <div class="reveal">
+            <div class="section-label">What You Get</div>
+            <h2 class="section-title">Everything your job search needs</h2>
+            <p class="section-sub">Built specifically for developers navigating competitive hiring pipelines.</p>
+            <div class="feat-grid">
+                <div class="feat-card">
+                    <div class="feat-icon green">📋</div>
+                    <div class="feat-name">Track Applications</div>
+                    <div class="feat-desc">Log every application with company, role, date, and status. Never lose track
+                        of where you applied.</div>
+                </div>
+                <div class="feat-card">
+                    <div class="feat-icon amber">🗓</div>
+                    <div class="feat-name">Manage Interviews</div>
+                    <div class="feat-desc">Keep notes, dates, and feedback for every interview round — all in one
+                        organized view.</div>
+                </div>
+                <div class="feat-card">
+                    <div class="feat-icon blue">✅</div>
+                    <div class="feat-name">Stay Organized</div>
+                    <div class="feat-desc">Move applications across stages with a clean kanban board. Always know what
+                        needs your attention.</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer Section -->
+    <!-- HOW IT WORKS -->
+    <section class="how">
+        <div class="reveal">
+            <div class="section-label">How It Works</div>
+            <h2 class="section-title">Up and running in minutes</h2>
+            <p class="section-sub">Simple, powerful, and built to keep you in flow.</p>
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-num">01</div>
+                    <div class="step-icon">👤</div>
+                    <div class="step-title">Create Your Account</div>
+                    <div class="step-desc">Sign up for free and set up your job search profile in seconds.</div>
+                </div>
+                <div class="step">
+                    <div class="step-num">02</div>
+                    <div class="step-icon">➕</div>
+                    <div class="step-title">Add Applications</div>
+                    <div class="step-desc">Log each role you apply for with details like company, title, and date.</div>
+                </div>
+                <div class="step">
+                    <div class="step-num">03</div>
+                    <div class="step-icon">📊</div>
+                    <div class="step-title">Track Your Progress</div>
+                    <div class="step-desc">Move applications through stages and always know where each one stands.</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- CTA -->
+    <div class="cta-wrap">
+        <div class="cta-box reveal">
+            <h2 class="cta-title">Ready to land your next role?</h2>
+            <p class="cta-sub">Join thousands of developers who stay organized and get hired faster.</p>
+            <div class="cta-btns">
+                <a href="signup.html" class="btn-white">Get Started Free →</a>
+                <a href="login.html" class="btn-white-outline">I have an account</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
     <footer>
-        <a href="#" class="footer-link">About</a>
-        <hr>
-        <a href="#" class="footer-link">Contact</a>
-        <hr>
-        <a href="#" class="footer-link">Privacy</a>
+        <a href="#" class="footer-logo">Job<span class="dot">.</span>Tracker</a>
+        <div class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy</a>
+        </div>
+        <div class="footer-copy">© 2025 JobTracker. All rights reserved.</div>
     </footer>
+
+    <script>
+        const els = document.querySelectorAll('.reveal');
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+        }, { threshold: 0.1 });
+        els.forEach(el => obs.observe(el));
+    </script>
 </body>
 
 </html>
